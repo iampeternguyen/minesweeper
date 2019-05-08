@@ -52,7 +52,6 @@ class MinesweeperGame
     return if pos == nil
     row,col = pos
     @board.grid[row][col].flag_bomb if @board.valid_pos?(row,col)
-
   end
 
   def get_pos_input
