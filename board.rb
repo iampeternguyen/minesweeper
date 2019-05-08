@@ -5,8 +5,16 @@ class Board
   def initialize(size = [9,9])
     @width, @height = size
     @grid=Array.new(@height) {Array.new(@width) {Tile.new()}}
+    @surrounding_areas = [
+      [-1,-1], [-1,0], [-1, 1],
+      [ 0,-1],         [ 0, 1],
+      [ 1,-1], [ 1,0], [ 1, 1]
+      ]
+
+
     populate_bombs(size)
     populate_bomb_indicators
+
   end
 
   def populate_bomb_indicators
@@ -21,19 +29,13 @@ class Board
   end
 
   def calculate_bombs(row, col)
-    surrounding_areas = [
-      [-1,-1], [-1,0], [-1, 1],
-      [ 0,-1],         [ 0, 1],
-      [ 1,-1], [ 1,0], [ 1, 1]
-      ]
-
     bombs = 0
-    surrounding_areas.each do |delta|
+    @surrounding_areas.each do |delta|
       row_delta, col_delta = delta
       new_row = row + row_delta
       new_col = col + col_delta
       next unless valid_pos?(new_row, new_col)
-      bombs += 1 if @grid[row+row_delta][col+col_delta].is_bomb?
+      bombs += 1 if @grid[new_row][new_col].is_bomb?
     end
     bombs == 0 ? " " : bombs
   end
@@ -50,6 +52,25 @@ class Board
       if !@grid[row][col].is_bomb?
         @grid[row][col].value("b")
         number_of_bombs -= 1
+      end
+    end
+  end
+
+  def reveal(row,col)
+    @grid[row][col].show
+    if @grid[row][col].is_blank?
+      @surrounding_areas.each do |delta|
+        row_delta, col_delta = delta
+        new_row = row + row_delta
+        new_col = col + col_delta
+        next unless valid_pos?(new_row, new_col)
+
+        if @grid[new_row][new_col].is_blank? && @grid[new_row][new_col].hidden?
+          reveal(new_row, new_col)
+        end
+
+        @grid[new_row][new_col].show unless @grid[new_row][new_col].is_bomb?
+
       end
     end
   end

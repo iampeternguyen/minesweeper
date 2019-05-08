@@ -2,7 +2,7 @@ require_relative 'board'
 
 class MinesweeperGame
   def initialize
-    @board = Board.new([2,2])
+    @board = Board.new([9,9])
     @game_over = false
   end
 
@@ -69,7 +69,7 @@ class MinesweeperGame
     pos = get_pos_input
     return if pos == nil
     row, col = pos
-    @board.grid[row][col].show if @board.valid_pos?(row,col)
+    @board.reveal(row,col) if @board.valid_pos?(row,col)
   end
 end
 

@@ -10,6 +10,10 @@ class Tile
     @value == "b"
   end
 
+  def is_blank?
+    @value == " "
+  end
+
   def flag_bomb
     @flagged = true if @hidden
   end
