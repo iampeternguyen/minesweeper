@@ -1,3 +1,4 @@
+require 'colorize'
 class Board
   attr_reader :grid
   def initialize(size = [9,9])
@@ -54,9 +55,9 @@ class Board
 
   def render
     print "  "
-    puts (0...@grid[0].length).to_a.join(" ")
+    puts (0...@grid[0].length).to_a.join(" ").blue
     @grid.each_with_index do |row, index|
-      puts "#{index} #{row.join(" ")}"
+      puts "#{index.to_s.blue} #{row.join(" ")}"
     end
   end
 end
