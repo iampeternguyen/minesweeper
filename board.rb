@@ -58,7 +58,15 @@ class Board
     print "  "
     puts (0...@grid[0].length).to_a.join(" ").blue
     @grid.each_with_index do |row, index|
-      puts "#{index.to_s.blue} #{row.join(" ")}"
+      print "#{index.to_s.blue} "
+      row.each do |tile|
+        if tile.hidden?
+          print "  ".colorize(:background => :white)
+        else
+          print "#{tile} "
+        end
+      end
+      print "\n"
     end
   end
 end
