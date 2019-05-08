@@ -1,9 +1,10 @@
+require_relative 'tile'
 require 'colorize'
 class Board
   attr_reader :grid
   def initialize(size = [9,9])
     @width, @height = size
-    @grid=Array.new(@height) {Array.new(@width, " ")}
+    @grid=Array.new(@height) {Array.new(@width) {Tile.new()}}
     populate_bombs(size)
     populate_bomb_indicators
   end
@@ -12,8 +13,8 @@ class Board
 
     (0...@width).each do |col|
       (0...@height).each do |row|
-        next if @grid[row][col] == "b"
-        @grid[row][col] = calculate_bombs(row,col)
+        next if @grid[row][col].is_bomb?
+        @grid[row][col].value(calculate_bombs(row,col))
       end
     end
 
@@ -32,7 +33,7 @@ class Board
       new_row = row + row_delta
       new_col = col + col_delta
       next unless valid_pos?(new_row, new_col)
-      bombs += 1 if @grid[row+row_delta][col+col_delta] == "b"
+      bombs += 1 if @grid[row+row_delta][col+col_delta].is_bomb?
     end
     bombs == 0 ? " " : bombs
   end
@@ -46,8 +47,8 @@ class Board
     number_of_bombs = spaces / 10
     while number_of_bombs > 0
       col,row = rand(@width), rand(@height)
-      if @grid[row][col] == " "
-        @grid[row][col] = "b"
+      if !@grid[row][col].is_bomb?
+        @grid[row][col].value("b")
         number_of_bombs -= 1
       end
     end
