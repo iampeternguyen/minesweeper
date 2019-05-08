@@ -73,7 +73,7 @@ class MinesweeperGame
   end
 
   def reveal_pos
-    @board.reveal
+    @board.reveal(@board.cursor_row, @board.cursor_col)
   end
 end
 
