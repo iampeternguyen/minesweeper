@@ -63,7 +63,8 @@ class Board
         if tile.hidden?
           print "  ".colorize(:background => :white)
         else
-          print "#{tile} "
+          print "#{tile} ".red if tile.is_bomb?
+          print "#{tile} " if !tile.is_bomb?
         end
       end
       print "\n"
