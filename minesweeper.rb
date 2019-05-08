@@ -48,26 +48,29 @@ class MinesweeperGame
   end
 
   def flag_bomb
+    pos = get_pos_input
+    return if pos == nil
+    row,col = pos
+    @board.grid[row][col].flag_bomb if @board.valid_pos?(row,col)
 
   end
 
-
-  def reveal_pos
+  def get_pos_input
     puts "select a tile (row,col). Eg. 2,3"
     begin
       pos = (gets.chomp.split(',').to_a.map{|ele| Integer(ele)})
-      p pos
+      return pos if pos.length == 2
     rescue => exception
       puts "please use the correct format"
-      return
+      return nil
     end
+  end
 
-    if pos.length == 2
-      row, col = pos
-      @board.grid[row][col].show if @board.valid_pos?(row,col)
-    else
-      take_turn
-    end
+  def reveal_pos
+    pos = get_pos_input
+    return if pos == nil
+    row, col = pos
+    @board.grid[row][col].show if @board.valid_pos?(row,col)
   end
 end
 

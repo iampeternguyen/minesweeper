@@ -60,7 +60,7 @@ class Board
     @grid.each_with_index do |row, index|
       print "#{index.to_s.blue} "
       row.each do |tile|
-        if tile.hidden?
+        if tile.hidden? && !tile.flagged?
           print "  ".colorize(:background => :white)
         else
           print "#{tile} ".red if tile.is_bomb?
