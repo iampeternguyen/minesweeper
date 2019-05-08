@@ -61,13 +61,13 @@ class Board
     end
   end
 
-  def reveal(row,col)
-    @grid[row][col].show
-    if @grid[row][col].is_blank?
+  def reveal
+    @grid[@cursor_row][@cursor_col].show
+    if @grid[@cursor_row][@cursor_col].is_blank?
       @surrounding_areas.each do |delta|
         row_delta, col_delta = delta
-        new_row = row + row_delta
-        new_col = col + col_delta
+        new_row = @cursor_row + row_delta
+        new_col = @cursor_col + col_delta
         next unless valid_pos?(new_row, new_col)
 
         if @grid[new_row][new_col].is_blank? && @grid[new_row][new_col].hidden?
@@ -78,6 +78,10 @@ class Board
 
       end
     end
+  end
+
+  def flag_bomb
+    @grid[@cursor_row][@cursor_col].flag_bomb
   end
 
   def render
