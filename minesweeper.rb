@@ -1,4 +1,4 @@
 require_relative 'board'
 
-game = Board.new
-p game.grid
+board = Board.new
+board.render
