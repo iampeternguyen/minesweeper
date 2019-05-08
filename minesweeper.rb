@@ -39,7 +39,8 @@ class MinesweeperGame
     puts "select a tile (row,col). Eg. 2,3"
     pos = (gets.chomp.split(',').to_a.map(&:to_i))
     row, col = pos
-    @board.grid[row][col].show
+
+    @board.grid[row][col].show if @board.valid_pos?(row,col)
 
   end
 end
