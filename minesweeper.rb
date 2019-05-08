@@ -36,16 +36,26 @@ class MinesweeperGame
   end
 
   def take_turn
-    puts "[r]eveal tile or [f]lag bomb?"
+    puts "move cursor using [w] [s] [a] [d]. [r]eveal tile or [f]lag bomb?"
+
     input = gets.chomp
-    if input == 'r'
+    case input
+    when 'r'
       reveal_pos
-    elsif input == 'f'
+    when 'f'
       flag_bomb
-    else
-      return
+    when 'w'
+      @board.cursor_row -= 1 if (@board.cursor_row - 1).between?(0,@board.height-1)
+    when 's'
+      @board.cursor_row += 1 if (@board.cursor_row + 1).between?(0,@board.height-1)
+    when 'a'
+      @board.cursor_col -= 1 if (@board.cursor_col - 1).between?(0,@board.width-1)
+    when 'd'
+      @board.cursor_col += 1 if (@board.cursor_col + 1).between?(0,@board.width-1)
     end
+
   end
+
 
   def flag_bomb
     pos = get_pos_input

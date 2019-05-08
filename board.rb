@@ -1,7 +1,8 @@
 require_relative 'tile'
 require 'colorize'
 class Board
-  attr_reader :grid
+  attr_accessor :cursor_col, :cursor_row
+  attr_reader :grid, :width, :height
   def initialize(size = [9,9])
     @width, @height = size
     @grid=Array.new(@height) {Array.new(@width) {Tile.new()}}
@@ -11,11 +12,15 @@ class Board
       [ 1,-1], [ 1,0], [ 1, 1]
       ]
 
+    @cursor_row = 0
+    @cursor_col = 0
 
     populate_bombs(size)
     populate_bomb_indicators
 
   end
+
+
 
   def populate_bomb_indicators
 
@@ -78,11 +83,16 @@ class Board
   def render
     print "  "
     puts (0...@grid[0].length).to_a.join(" ").blue
-    @grid.each_with_index do |row, index|
-      print "#{index.to_s.blue} "
-      row.each do |tile|
+    @grid.each_with_index do |row, row_index|
+      print "#{row_index.to_s.blue} "
+      row.each_with_index do |tile, col_index|
         if tile.hidden? && !tile.flagged?
-          print "  ".colorize(:background => :white)
+          if row_index == @cursor_row && col_index == @cursor_col
+            print "  ".colorize(:background => :green)
+          else
+            print "  ".colorize(:background => :white)
+          end
+
         else
           print "#{tile} ".red if tile.is_bomb?
           print "#{tile} " if !tile.is_bomb?
