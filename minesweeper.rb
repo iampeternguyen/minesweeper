@@ -36,6 +36,23 @@ class MinesweeperGame
   end
 
   def take_turn
+    puts "[r]eveal tile or [f]lag bomb?"
+    input = gets.chomp
+    if input == 'r'
+      reveal_pos
+    elsif input == 'f'
+      flag_bomb
+    else
+      return
+    end
+  end
+
+  def flag_bomb
+
+  end
+
+
+  def reveal_pos
     puts "select a tile (row,col). Eg. 2,3"
     begin
       pos = (gets.chomp.split(',').to_a.map{|ele| Integer(ele)})
@@ -51,8 +68,6 @@ class MinesweeperGame
     else
       take_turn
     end
-
-
   end
 end
 
