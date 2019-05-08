@@ -30,6 +30,8 @@ class MinesweeperGame
   def game_won?
     if @board.grid.flatten.any? {|tile| tile.is_bomb? && !tile.hidden?}
       puts "game over"
+      @board.grid.flatten.each {|tile| tile.show}
+      @board.render
     else
       puts "you win"
     end
@@ -52,6 +54,9 @@ class MinesweeperGame
       @board.cursor_col -= 1 if (@board.cursor_col - 1).between?(0,@board.width-1)
     when 'd'
       @board.cursor_col += 1 if (@board.cursor_col + 1).between?(0,@board.width-1)
+    when 'y'
+      @board.grid.flatten.each {|tile| tile.show}
+
     end
 
   end

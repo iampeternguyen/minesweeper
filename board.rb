@@ -17,7 +17,6 @@ class Board
 
     populate_bombs(size)
     populate_bomb_indicators
-
   end
 
 
@@ -71,8 +70,8 @@ class Board
     if @grid[row][col].is_blank?
       @surrounding_areas.each do |delta|
         row_delta, col_delta = delta
-        new_row = @cursor_row + row_delta
-        new_col = @cursor_col + col_delta
+        new_row = row + row_delta
+        new_col = col + col_delta
         next unless valid_pos?(new_row, new_col)
 
         if @grid[new_row][new_col].is_blank? && @grid[new_row][new_col].hidden?
@@ -101,10 +100,20 @@ class Board
           else
             print "  ".colorize(:background => :white)
           end
-
+        elsif tile.hidden? && tile.flagged?
+          if row_index == @cursor_row && col_index == @cursor_col
+            print "* ".colorize(:background => :green)
+          else
+            print "  ".colorize(:background => :yellow)
+          end
         else
-          print "#{tile} ".red if tile.is_bomb?
-          print "#{tile} " if !tile.is_bomb?
+          if row_index == @cursor_row && col_index == @cursor_col
+            print "#{tile} ".colorize(:background => :green) if !tile.is_bomb?
+          else
+            print "#{tile} ".red if tile.is_bomb? && !tile.hidden?
+            print "#{tile} " if !tile.is_bomb?
+          end
+
         end
       end
       print "\n"

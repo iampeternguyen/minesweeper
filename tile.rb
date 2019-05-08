@@ -29,8 +29,6 @@ class Tile
   def to_s
     if @flagged
       "*"
-    elsif @hidden
-      " "
     else
       @value.to_s
     end
