@@ -61,6 +61,10 @@ class Board
     end
   end
 
+  def flag_bomb
+    @grid[@cursor_row][@cursor_col].flag_bomb
+  end
+
   def reveal(row,col)
     @grid[row][col].show
     if @grid[row][col].is_blank?

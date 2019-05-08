@@ -58,10 +58,7 @@ class MinesweeperGame
 
 
   def flag_bomb
-    pos = get_pos_input
-    return if pos == nil
-    row,col = pos
-    @board.grid[row][col].flag_bomb if @board.valid_pos?(row,col)
+    @board.flag_bomb
   end
 
   def get_pos_input
@@ -76,10 +73,7 @@ class MinesweeperGame
   end
 
   def reveal_pos
-    pos = get_pos_input
-    return if pos == nil
-    row, col = pos
-    @board.reveal(row,col) if @board.valid_pos?(row,col)
+    @board.reveal(@board.cursor_row,@board.cursor_col)
   end
 end
 
