@@ -37,10 +37,21 @@ class MinesweeperGame
 
   def take_turn
     puts "select a tile (row,col). Eg. 2,3"
-    pos = (gets.chomp.split(',').to_a.map(&:to_i))
-    row, col = pos
+    begin
+      pos = (gets.chomp.split(',').to_a.map{|ele| Integer(ele)})
+      p pos
+    rescue => exception
+      puts "please use the correct format"
+      return
+    end
 
-    @board.grid[row][col].show if @board.valid_pos?(row,col)
+    if pos.length == 2
+      row, col = pos
+      @board.grid[row][col].show if @board.valid_pos?(row,col)
+    else
+      take_turn
+    end
+
 
   end
 end
