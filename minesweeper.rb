@@ -1,3 +1,5 @@
+require 'yaml'
+
 require_relative 'board'
 
 class MinesweeperGame
@@ -38,6 +40,7 @@ class MinesweeperGame
   end
 
   def take_turn
+    puts "save [g]ame, [l]oad previous game, [q]uit game"
     puts "move cursor using [w] [s] [a] [d]. [r]eveal tile or [f]lag bomb?"
 
     input = gets.chomp
@@ -56,11 +59,31 @@ class MinesweeperGame
       @board.cursor_col += 1 if (@board.cursor_col + 1).between?(0,@board.width-1)
     when 'y'
       @board.grid.flatten.each {|tile| tile.show}
-
+    when 'g'
+      save_game
+    when 'l'
+      load_game
+    when 'q'
+      quit_game
     end
 
   end
 
+  def save_game
+    board = @board.to_yaml
+    File.open("save.yml", "w") { |file| file.write(board) }
+    puts "game saved"
+  end
+
+  def load_game
+    board = YAML.load(File.read("save.yml"))
+    @board = board
+    puts "game loaded"
+  end
+
+  def quit_game
+    exit
+  end
 
   def flag_bomb
     @board.flag_bomb
